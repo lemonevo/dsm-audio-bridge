@@ -1,0 +1,11 @@
+.DS_Store
+.env
+cache/
+logs/
+tag-backup-*.json
+*.7z
+
+# 内部交接文档，不随仓库发布
+AGENTS.md
+__pycache__/
+*.pyc

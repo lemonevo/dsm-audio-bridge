@@ -1,0 +1,4 @@
+cache/
+logs/
+*.7z
+.DS_Store

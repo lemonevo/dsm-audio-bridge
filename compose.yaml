@@ -1,0 +1,31 @@
+services:
+  dsm-audio-bridge:
+    build: .
+    image: dsm-audio-bridge:latest
+    container_name: dsm-audio-bridge
+    restart: always
+    network_mode: host
+    volumes:
+      - ./probe_server.py:/app/probe_server.py:ro
+      - ./cache:/app/cache
+      - ./logs:/app/logs
+    working_dir: /app
+    environment:
+      PORT: "5050"
+      WEBDAV_URL: ${WEBDAV_URL:-http://127.0.0.1:5244/dav/Music}
+      WEBDAV_USER: ${WEBDAV_USER:-admin}
+      WEBDAV_PASS: ${WEBDAV_PASS}
+      LIBRARY_NAME: ${LIBRARY_NAME:-Music}
+      RESCAN_INTERVAL: "120"
+      PREWARM_COVERS: "1"
+      PREWARM_ARTISTS: "1"
+      PREWARM_TRANSCODE: "0"
+      DSM_ACCOUNT: ${DSM_ACCOUNT:-admin}
+      DSM_PASSWORD: ${DSM_PASSWORD}
+      TZ: ${TZ:-Asia/Shanghai}
+    command: ["python3", "probe_server.py"]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "2"
