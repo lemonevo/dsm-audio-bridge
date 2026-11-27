@@ -1384,7 +1384,7 @@ def cover_endpoint(params, headers):
             req_id = al["_song_ids"][0]
     song = LIB["by_id"].get(req_id)
     if not song:
-        return FALLBACK_JPEG, "image/jpeg", 200, {}
+        return FALLBACK_JPEG, "image/jpeg", 200, {"Cache-Control": "no-store"}
     ua = (headers.get("User-Agent") or "").lower()
     wants_small = "watchos" in ua or str(params.get("size") or "").lower() in ("small", "medium")
     if wants_small:
@@ -1409,7 +1409,7 @@ def cover_endpoint(params, headers):
             if p.is_file():
                 return FileBody(p), _file_mime(p), 200, {}
     queue_cover(song)
-    return FALLBACK_JPEG, "image/jpeg", 200, {}
+    return FALLBACK_JPEG, "image/jpeg", 200, {"Cache-Control": "no-store"}
 
 
 def find_sidecar(song, ext):
